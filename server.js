@@ -21,12 +21,21 @@ const db = knex({
       database : 'smart-brain'
     }
 });
+
+// db.select('*').from('users').then(data => {
+//     console.log(data);
+// })
+// db.select('*').from('login').then(data => {
+//     console.log(data);
+// })
+// console.log(db.select('*').from('login'));
       
 
 const app = express();
+const PORT = process.env.PORT;
 
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 
 
 app.get('/', (req, res) => {
@@ -42,6 +51,6 @@ app.get('/profile/:id', (req, res) => {profile.handleProfile(req, res, db)})
 app.put('/image', (req, res) => {image.handleImage(req, res, db)})
 app.post('/imageurl', (req, res) => {image.handleApiCall(req, res, personalAccessToken)})
 
-app.listen(3000, () => {
-    console.log('app is running on port 3000');
+app.listen(PORT, () => {
+    console.log(`app is running on port ${PORT}`);
 })
