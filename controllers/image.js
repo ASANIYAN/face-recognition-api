@@ -35,18 +35,11 @@ const handleApiCall = (req, res, personalAccessToken) => {
             if (response.status.code !== 10000) {
                 console.log(response.status.description);
                 return res.status(400).json('Failed to complete detection');
-                // throw new Error("Post model outputs failed, status: " + response.status.description);
             }
     
             // Since we have one input, one output will exist here.
             const output = response.outputs[0];
-            console.log(output)
             return res.json(response);
-    
-            // console.log("Predicted concepts:");
-            // for (const concept of output.data.concepts) {
-            //     console.log(concept.name + " " + concept.value);
-            // }
         }
     );  
 }

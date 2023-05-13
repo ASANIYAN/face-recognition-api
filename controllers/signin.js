@@ -1,4 +1,4 @@
-const handleSignin = ( db, bcrypt) => (req, res) => {
+const handleSignin = ( db, bcrypt, jwt) => (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) {
         return res.status(400).json('Incorrect form submission'); 
@@ -12,14 +12,25 @@ const handleSignin = ( db, bcrypt) => (req, res) => {
                 return db.select('*').from('users')
                     .where({email: email})
                     .then(user => {
-                        res.json(user[0])
+                        const info  = { email };
+                        const accessToken = jwt.sign(info, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
+                        res.json({
+                            accessToken: accessToken,
+                            data: user[0]
+                        });
                     })
-                    .catch(err => res.status(400).json('unable to get user'))
+                    .catch(err =>{ 
+                        res.status(400).json('unable to get user')
+                        console.log(err);
+                    })
             } else {
                 res.status(400).json('wrong credentials')
             }
         })
-        .catch(err => res.status(400).json('wrong credentials'))
+        .catch(err =>{ 
+            res.status(400).json('wrong credentials');
+            console.log(err);
+        })
 }
 
 module.exports = {

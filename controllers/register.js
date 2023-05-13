@@ -5,7 +5,7 @@ const handleRegister = (db, bcrypt) => (req, res) => {
     } else {
         const saltRounds = 10;
         const hash = bcrypt.hashSync(password, saltRounds);
-        // use transactions when you have nmultiple operations to perform at once
+        // use transactions when you have multiple operations to perform at once
         db.transaction(trx => {
             // Store hash in your password DB.
             trx.insert({
