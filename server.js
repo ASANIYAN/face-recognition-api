@@ -11,6 +11,7 @@ const signin = require('./controllers/signin');
 const profile = require('./controllers/profile');
 const image = require('./controllers/image');
 const protectedRoute = require('./middleware/protectedRoute');
+const blacklist = require('./middleware/blacklist');
 
 const personalAccessToken = process.env.PERSONAL_ACCESS_TOKEN;
 
@@ -39,7 +40,7 @@ app.post('/signin', signin.handleSignin(db, bcrypt, jwt));
 app.post('/register', register.handleRegister(db, bcrypt));
 
 // auth routes
-app.get('/', protectedRoute.protectedRoute, (req, res) => { home.handleHome(req, res, db, jwt, )});
+app.get('/', protectedRoute.protectedRoute, blacklist.checkBlacklist(db), (req, res) => { home.handleHome(req, res, db, jwt)});
 app.get('/profile/:id', protectedRoute.protectedRoute, (req, res) => {profile.handleProfile(req, res, db)})
 
 app.put('/image', protectedRoute.protectedRoute, (req, res) => {image.handleImage(req, res, db)})

@@ -13,7 +13,7 @@ const handleSignin = ( db, bcrypt, jwt) => (req, res) => {
                     .where({email: email})
                     .then(user => {
                         const info  = { email };
-                        const accessToken = jwt.sign(info, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
+                        const accessToken = jwt.sign(info, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15s' });
                         res.json({
                             accessToken: accessToken,
                             data: user[0]
