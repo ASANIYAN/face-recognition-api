@@ -19,17 +19,15 @@ const handleSignin = ( db, bcrypt, jwt) => (req, res) => {
                             data: user[0]
                         });
                     })
-                    .catch(err =>{ 
+                    .catch(err => { 
                         res.status(400).json('unable to get user')
-                        console.log(err);
                     })
             } else {
                 res.status(400).json('wrong credentials')
             }
         })
-        .catch(err =>{ 
+        .catch(err => { 
             res.status(400).json('wrong credentials');
-            console.log(err);
         })
 }
 

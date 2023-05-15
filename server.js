@@ -8,6 +8,7 @@ const jwt = require("jsonwebtoken");
 const register = require('./controllers/register');
 const home = require('./controllers/home');
 const signin = require('./controllers/signin');
+const logout = require('./controllers/logout');
 const profile = require('./controllers/profile');
 const image = require('./controllers/image');
 const protectedRoute = require('./middleware/protectedRoute');
@@ -35,16 +36,16 @@ app.use(cors());
 app.use(express.json());
 
 
-
-app.post('/signin', signin.handleSignin(db, bcrypt, jwt));
 app.post('/register', register.handleRegister(db, bcrypt));
+app.post('/signin', signin.handleSignin(db, bcrypt, jwt));
+app.post('/logout', logout.handleLogout(db));
 
 // auth routes
-app.get('/', protectedRoute.protectedRoute, blacklist.checkBlacklist(db), (req, res) => { home.handleHome(req, res, db, jwt)});
-app.get('/profile/:id', protectedRoute.protectedRoute, (req, res) => {profile.handleProfile(req, res, db)})
+app.get('/', blacklist.checkBlacklist(db), protectedRoute.protectedRoute, (req, res) => { home.handleHome(req, res, db, jwt)});
+app.get('/profile/:id', blacklist.checkBlacklist(db), protectedRoute.protectedRoute, (req, res) => {profile.handleProfile(req, res, db)});
+app.put('/image', blacklist.checkBlacklist(db), protectedRoute.protectedRoute, (req, res) => {image.handleImage(req, res, db)});
 
-app.put('/image', protectedRoute.protectedRoute, (req, res) => {image.handleImage(req, res, db)})
-app.post('/imageurl', (req, res) => {image.handleApiCall(req, res, personalAccessToken)})
+app.post('/imageurl', (req, res) => {image.handleApiCall(req, res, personalAccessToken)});
 
 app.listen(PORT, () => {
     console.log(`app is running on port ${PORT}`);

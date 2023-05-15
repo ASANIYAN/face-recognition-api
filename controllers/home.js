@@ -14,8 +14,7 @@ const handleHome = (req, res, db, jwt) => {
             });
         })
         .catch(err =>{ 
-            res.status(400).json('unable to get user')
-            console.log(err);
+            res.status(400).json('unable to get user');
         })
 }
 

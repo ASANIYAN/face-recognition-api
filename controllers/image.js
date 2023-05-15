@@ -28,12 +28,10 @@ const handleApiCall = (req, res, personalAccessToken) => {
         metadata,
         (err, response) => {
             if (err) {
-                console.log(err);
                 return res.status(400).json('Error connecting to API'); 
             }
     
             if (response.status.code !== 10000) {
-                console.log(response.status.description);
                 return res.status(400).json('Failed to complete detection');
             }
     

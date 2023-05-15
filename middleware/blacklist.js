@@ -2,9 +2,9 @@
 const checkBlacklist = (db) => {
     // Get the JWT from the request headers
     return function(req, res, next) {
-        console.log(req, res);
         const authHeader = req.headers['authorization'];
         const token = authHeader && authHeader.split(' ')[1];
+        if (!token) return res.status(401).json({message: "token not found"});
       
         // Check if the token is blacklisted
         db.select('token').from('blacklist')
@@ -13,7 +13,6 @@ const checkBlacklist = (db) => {
             if (rows.length > 0) {
               return res.status(401).json({ message: 'Token has been revoked' });
             } else {
-                console.log('hello blacklist')
                 next();
             }
           })
