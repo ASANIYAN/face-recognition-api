@@ -20,11 +20,10 @@ const personalAccessToken = process.env.PERSONAL_ACCESS_TOKEN;
 const db = knex({
     client: 'pg',
     connection: {
-      host : '127.0.0.1',
-      port : 5432,
-      user : 'postgres',
-      password : 'test',
-      database : 'smart-brain'
+      connectionString: process.env.DBConnLink,
+      ssl: {
+        rejectUnauthorized: false
+      }
     }
 });
       
