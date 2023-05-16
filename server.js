@@ -39,9 +39,10 @@ app.use(express.json());
 app.post('/register', register.handleRegister(db, bcrypt));
 app.post('/signin', signin.handleSignin(db, bcrypt, jwt));
 app.post('/logout', logout.handleLogout(db));
+app.get('/', (req,res) => { res.send('it is working') })
 
 // auth routes
-app.get('/', blacklist.checkBlacklist(db), protectedRoute.protectedRoute, (req, res) => { home.handleHome(req, res, db, jwt)});
+app.get('/home', blacklist.checkBlacklist(db), protectedRoute.protectedRoute, (req, res) => { home.handleHome(req, res, db, jwt)});
 app.get('/profile/:id', blacklist.checkBlacklist(db), protectedRoute.protectedRoute, (req, res) => {profile.handleProfile(req, res, db)});
 app.put('/image', blacklist.checkBlacklist(db), protectedRoute.protectedRoute, (req, res) => {image.handleImage(req, res, db)});
 
